@@ -1,0 +1,19 @@
+public class Solution {
+    public int MaxProfit(int[] prices, int fee) 
+    {
+        if(prices.Length == 0)
+        {
+            return 0;
+        }
+        var buyState = 0 - prices[0];
+        var sellState = 0;
+        for(int i = 1; i < prices.Length; i++)
+        {
+            var temp = buyState;
+            buyState = Math.Max(buyState, sellState - prices[i]);
+            sellState = Math.Max(sellState, temp + prices[i] - fee);
+        }
+        
+        return sellState;
+    }
+}

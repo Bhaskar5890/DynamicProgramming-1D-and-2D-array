@@ -1,0 +1,25 @@
+public class Solution {
+    public int[] CountBits(int num) 
+    {
+        if(num == 0)
+        {
+            return new int[]{0};
+        }
+        int[] noOfOnes = new int[num+1];
+        noOfOnes[0]= 0;
+        noOfOnes[1]= 1;
+        for(int i = 2; i <= num; i++)
+        {
+            if(i % 2 == 0)
+            {
+                noOfOnes[i] = noOfOnes[i/2];
+            }
+            else
+            {
+                int n = i / 2;
+                noOfOnes[i] = noOfOnes[n] + 1;
+            }
+        }
+        return noOfOnes;
+    }
+}

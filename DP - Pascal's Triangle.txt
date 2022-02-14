@@ -1,0 +1,24 @@
+
+public class Solution {
+    public IList<IList<int>> Generate(int numRows) 
+    {
+        var resList = new List<IList<int>>();
+        resList.Add(new List<int>{1});
+        
+        for(int i = 1; i < numRows; i++)
+        {
+            var oldList = new List<int>(resList[resList.Count - 1]);
+            oldList.Insert(0, 0);
+            oldList.Add(0);
+            
+            var temp = new List<int>();
+            for(int j = 1; j < oldList.Count; j++)
+            {
+                temp.Add(oldList[j-1] + oldList[j]);
+            }
+            resList.Add(temp);
+        }
+        
+        return resList;
+    }
+}

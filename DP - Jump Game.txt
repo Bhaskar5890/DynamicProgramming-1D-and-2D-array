@@ -1,0 +1,21 @@
+public class Solution {
+    public bool CanJump(int[] nums) 
+    {
+        if(nums.Length == 0 || nums.Length == 1)
+        {
+            return true;
+        }
+        var goal = nums.Length-1;
+        
+        for(int i = nums.Length-2; i >= 0; i--)
+        {
+            //Means from here we can reach the goal post.
+            if(i + nums[i] >= goal)
+            {
+                goal = i;
+            }
+        }
+        
+        return goal == 0;
+    }
+}

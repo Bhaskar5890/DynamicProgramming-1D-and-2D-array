@@ -1,0 +1,22 @@
+public class Solution {
+    public int NumTrees(int n) 
+    {
+        var arr = new int[n+1];
+        Array.Fill(arr, 1);
+        
+        for(int nodes = 2; nodes <= n; nodes++)
+        {
+            //total number of tree with current node
+            var total = 0;
+            for(int root = 1; root <= nodes; root++)
+            {
+                var leftNodes = root-1;
+                var rightNodes = nodes - root;
+                total += arr[leftNodes] * arr[rightNodes];
+            }
+            arr[nodes] = total;
+        }
+        
+        return arr[n];
+    }
+}

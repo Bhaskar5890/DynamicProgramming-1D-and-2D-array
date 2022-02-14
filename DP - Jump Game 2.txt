@@ -1,0 +1,23 @@
+public class Solution {
+    public int Jump(int[] nums) 
+    {
+        var res = 0;
+        var left = 0;
+        var right = 0;
+        
+        while(right < nums.Length-1)
+        {
+            //BFS Algorith in array (moving left right for the window for that level)
+            var farthest = 0;
+            for(int i = left; i < right + 1; i++)
+            {
+                farthest = Math.Max(farthest, i + nums[i]);
+            }
+            left = right+1;
+            right = farthest;
+            res++;
+        }
+        
+        return res;
+    }
+}

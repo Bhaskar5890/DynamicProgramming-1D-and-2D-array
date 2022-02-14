@@ -1,0 +1,26 @@
+public class Solution {
+    public int MinPathSum(int[][] grid) 
+    {
+        var rows = grid.Length;
+        var cols = grid[0].Length;
+        
+        var resGrid = new int[rows+1][];
+        for(int i = 0; i < resGrid.Length; i++)
+        {
+            resGrid[i] = new int[cols+1];
+            Array.Fill(resGrid[i], Int32.MaxValue);
+        }
+        
+        resGrid[resGrid.Length-1][resGrid[0].Length-2] = 0;
+        
+        for(int i = resGrid.Length-2; i>= 0; i--)
+        {
+            for(int j = resGrid[i].Length-2; j >= 0; j--)
+            {
+                resGrid[i][j] = grid[i][j] + Math.Min(resGrid[i+1][j] , resGrid[i][j+1]);
+            }
+        }
+        
+        return resGrid[0][0];
+    }
+}

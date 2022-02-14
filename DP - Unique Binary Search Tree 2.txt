@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    IDictionary<(int,int), IList<TreeNode>> dict = new Dictionary<(int,int), IList<TreeNode>>();
+    public IList<TreeNode> GenerateTrees(int n) 
+    {
+        if(n == 0)
+        {
+            return new List<TreeNode>();
+        }
+        var list = GenerateTree(1,n);
+        return list;
+    }
+    
+    public IList<TreeNode> GenerateTree(int start, int end) 
+    {
+        var tempList = new List<TreeNode>();
+        if (start == end)
+        {
+            tempList.Add(new TreeNode(start));
+            return tempList;
+        }
+        else if(start > end)
+        {
+            tempList.Add(null);
+            return tempList;
+        }
+        
+      if (dict.ContainsKey((start,end)))
+      {
+        return dict[(start,end)];
+      }
+        
+        for(int i = start; i <= end; i++)
+        {
+            foreach(var lbt in GenerateTree(start, i-1))
+            {
+                foreach(var rbt in GenerateTree(i+1, end))
+                {
+                    var node = new TreeNode(i);
+                    node.left = lbt;
+                    node.right = rbt;
+                    tempList.Add(node);
+                }
+            }
+        }
+        dict.Add((start,end), tempList);
+        return tempList;
+    }
+}

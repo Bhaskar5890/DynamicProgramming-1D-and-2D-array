@@ -1,0 +1,35 @@
+public class Solution {
+    public int Rob(int[] nums) 
+    {
+        if(nums.Length == 0)
+        {
+            return 0;
+        }
+        if(nums.Length == 1)
+        {
+            return nums[0];
+        }
+        
+        return Math.Max(HouseRobber(nums, 0, nums.Length-2), 
+                        HouseRobber(nums, 1, nums.Length-1));
+        
+    }
+    
+    public int HouseRobber(int[] nums, int start, int end)
+    {
+       if (start == end)
+       {
+         return nums[start];
+       }
+        var robArr = new int[nums.Length + 1];
+        robArr[start] = nums[start];
+        robArr[start+1] = Math.Max(nums[start], nums[start+1]);
+        
+        for(int i = start+2; i <= end; i++)
+        {
+            robArr[i] = Math.Max(nums[i] + robArr[i-2], robArr[i-1]);
+        }
+        
+        return robArr[end];
+    }
+}

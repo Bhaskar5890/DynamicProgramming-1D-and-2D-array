@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    int maxPathSum = Int32.MinValue;
+    public int MaxPathSum(TreeNode root) 
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        if(root != null && (root.left == null && root.right == null))
+        {
+            return root.val;
+        }
+        var sum = PathSum(root);
+        return maxPathSum;
+    }
+    
+    public int PathSum(TreeNode root)
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        
+        var lPathSum = PathSum(root.left);
+        var rPathSum = PathSum(root.right);
+        
+        var temp = Math.Max(Math.Max(lPathSum, rPathSum) + root.val, root.val);
+        maxPathSum = Math.Max(maxPathSum, Math.Max(temp, lPathSum + rPathSum + root.val));
+        return temp;
+    }
+}

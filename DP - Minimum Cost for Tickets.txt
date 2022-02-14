@@ -1,0 +1,36 @@
+public class Solution {
+    HashSet<int> set = new HashSet<int>();
+    public int MincostTickets(int[] days, int[] costs) 
+    {
+      int[] arr = new int[days[days.Length - 1]+1];
+      for (int i = 0; i < days.Length; i++)
+      {
+        set.Add(days[i]);
+      }
+      var res = DP(days[days.Length-1], arr, costs);
+      return res;
+    }
+    
+    public int DP(int day, int[] arr, int[] costs)
+    {
+        if (day <= 0)
+      {
+        return 0;
+      }
+      if (arr[day] != 0)
+      {
+        return arr[day];
+      }
+      var res = 0;
+      if (set.Contains(day))
+      {
+        res = Math.Min(Math.Min(DP(day - 1, arr, costs) + costs[0], 
+          DP(day - 7, arr, costs) + costs[1]), DP(day - 30, arr, costs) + costs[2]);
+      }
+      else
+      {
+        res = DP(day - 1, arr, costs);
+      }
+      return arr[day] = res;
+    }
+}

@@ -1,0 +1,23 @@
+public class Solution {
+    public int MinCostClimbingStairs(int[] cost) 
+    {
+        if(cost.Length == 0)
+        {
+            return 0;
+        }
+        if(cost.Length == 1)
+        {
+            return cost[0];
+        }
+        var result = new int[cost.Length+1];
+        result[cost.Length] = 0;
+        result[cost.Length-1] = cost[cost.Length-1];
+        
+        for(int i = cost.Length-2; i >= 0; i--)
+        {
+            result[i] = Math.Min(cost[i] + result[i+1], cost[i] + result[i+2]);
+        }
+        
+        return Math.Min(result[0], result[1]);
+    }
+}
