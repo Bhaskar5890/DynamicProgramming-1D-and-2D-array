@@ -1,0 +1,29 @@
+public class Solution {
+    public int LengthOfLIS(int[] nums) 
+    {
+        if(nums.Length == 0)
+        {
+            return 0;
+        }
+        if(nums.Length == 1)
+        {
+            return 1;
+        }
+        var target = new int[nums.Length];
+        int max = Int32.MinValue;
+        Array.Fill(target, 1);
+        for(int i = nums.Length-2; i >= 0; i--)
+        {
+            for(int j = i+1; j < nums.Length; j++)
+            {
+                if(nums[i] < nums[j])
+                {
+                    target[i] = Math.Max(target[i], 1 + target[j]);
+                }
+            }
+            max = Math.Max(max, target[i]);
+        }
+        
+        return max;
+    }
+}

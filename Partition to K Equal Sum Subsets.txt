@@ -1,0 +1,57 @@
+public class Solution {
+    public bool CanPartitionKSubsets(int[] nums, int k) 
+    {
+        int sum = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            sum += nums[i];
+        }
+        
+        int target = sum/k;
+        
+        Array.Sort(nums, (a,b) => {return b-a;});
+        if((sum % k) != 0)
+        {
+            return false;
+        }
+        
+        bool[] used = new bool[nums.Length];
+        
+        return Backtracking(0, 0, target, used, k, nums);
+        
+    }
+    
+    public bool Backtracking(int index, int currentSum, int target, bool[] used, int k, int[] nums)
+    {
+      if (k == 0)
+      {
+        return true;
+      }
+      if (currentSum > target)  
+      {
+          return false;
+      }
+      if (currentSum == target)
+      {
+        return Backtracking(0, 0, target, used, k - 1, nums);
+      }
+
+      for (int j = index; j < nums.Length; j++)
+      {
+        if (used[j])
+        {
+          continue;
+        }
+
+        used[j] = true;
+        if (Backtracking(j + 1, currentSum + nums[j], target, used, k, nums))
+        {
+          return true;
+        }
+
+        used[j] = false;
+      }
+
+      return false;
+    }
+}

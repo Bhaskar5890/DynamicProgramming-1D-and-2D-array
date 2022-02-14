@@ -1,0 +1,58 @@
+public class Solution {
+    int[][] matrix = null;
+    public int MinCut(string s) 
+    {
+        matrix = new int[s.Length+1][];
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            matrix[i] = new int[s.Length+1];
+            Array.Fill(matrix[i], -1);
+        }
+        
+        var res = MinPartition(s, 0, s.Length-1);
+        return res;
+    }
+    
+    public int MinPartition(string s, int i, int j)
+    {
+        if(i >= j || IsPalindrome(s, i, j))
+        {
+            return 0;
+        }
+        
+        if(matrix[i][j] != -1)
+        {
+            return matrix[i][j];
+        }
+        var min = Int32.MaxValue;   
+        for(int k = i ; k < j; k++)
+        {
+            var left = matrix[i][k] != -1 ? matrix[i][k] : MinPartition(s, i, k);
+            var right = matrix[k+1][j] != -1 ? matrix[k+1][j] : MinPartition(s, k+1, j);
+            var temp = left + right + 1;
+            
+            min = Math.Min(min, temp);
+        }
+        
+        return matrix[i][j] = min;
+    }
+    
+    public bool IsPalindrome(string s, int start, int end)
+    {
+        if(start == end)
+        {
+            return true;
+        }
+        while(start < end)
+        {
+            if(s[start] != s[end])
+            {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        
+        return true;
+    }
+}

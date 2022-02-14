@@ -1,0 +1,73 @@
+public class Solution {
+    public int FindTargetSumWays(int[] nums, int target) 
+    {
+        int sum = 0;
+        int zerosCount = 0;
+        //Handle corner cases for single element scenario
+        if(nums.Length == 0 || (nums.Length == 1 && nums[0] < Math.Abs(target)))
+        {
+            return 0;
+        }
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(nums[i] == 0)
+            {
+                zerosCount++;
+            }
+            sum += nums[i];
+        }
+        
+        var subSetSum = (sum + target) / 2;
+        //Handle scenarios for sum is not divisible by 2
+        if(sum < target || (sum + target) % 2 != 0)
+        {
+            return 0;
+        }
+        
+        return CountoFSubsets(nums, subSetSum) * (int)Math.Pow(2, zerosCount);
+    }
+    
+    
+    //Count of subset sum
+    public int CountoFSubsets(int[] nums, int subSetSum)
+    {
+        //Create matrix as jagged array
+        var matrix = new int[nums.Length+1][];
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            matrix[i] = new int[subSetSum + 1];
+        }
+        //Initialization
+        for(int i = 1; i < matrix[0].Length; i++)
+        {
+            matrix[0][i] = 0;
+        }
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            matrix[i][0] = 1;
+        }
+        
+        for(int i = 1; i < matrix.Length; i++)
+        {
+            for(int j = 1; j < matrix[i].Length; j++)
+            {
+                //Handle case for 0
+                if(nums[i-1] == 0)
+                {
+                    matrix[i][j] = matrix[i-1][j];
+                }
+                //Rest cases are same as count of subset sum
+                else if(nums[i-1] <= j)
+                {
+                    matrix[i][j] = matrix[i-1][j - nums[i-1]] + matrix[i-1][j];   
+                }
+                else
+                {
+                    matrix[i][j] = matrix[i-1][j];
+                }
+            }
+        }
+        
+        return matrix[nums.Length][subSetSum];
+    }
+}

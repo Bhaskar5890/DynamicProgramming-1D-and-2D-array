@@ -1,0 +1,95 @@
+public class Solution {
+    public string ShortestCommonSupersequence(string str1, string str2) 
+    {
+        var m = str1.Length;
+        var n = str2.Length;
+        
+        var mat = LCS(str1, str2);
+        
+        var res = GenerateString(mat, m, n, str1, str2);
+        return res;
+    }
+    
+    public string GenerateString(int[][] matrix, int m, int n, string str1, string str2)
+    {
+        var i = m;
+        var j = n;
+        var res = "";
+        while(i > 0 && j > 0)
+        {
+            if(str1[i-1] == str2[j-1])
+            {
+                res = str1[i-1] + res;
+                i--;
+                j--;
+            }
+            else
+            {
+                if(matrix[i-1][j] > matrix[i][j-1])
+                {
+                    res = str1[i-1] + res;
+                    i--;
+                }
+                else
+                {
+                    res = str2[j-1] + res;
+                    j--;
+                }
+            }
+        }
+        
+        while(i > 0)
+        {
+            res = str1[i-1] + res;
+            i--;
+        }
+        
+        while(j > 0)
+        {
+            res = str2[j-1] + res;
+            j--;
+        }
+        
+        return res;
+    }
+    
+    public int[][] LCS(string str1, string str2)
+    {
+        var m = str1.Length;
+        var n = str2.Length;
+        
+        var matrix = new int[m+1][];
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            matrix[i] = new int[n+1];
+        }
+        
+        //Initialization
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            matrix[i][0] = 0;
+        }
+        for(int i = 0; i < matrix[0].Length; i++)
+        {
+            matrix[0][i] = 0;
+        }
+        
+        //Choice diagram
+        for(int i = 1; i < matrix.Length; i++)
+        {
+            for(int j = 1; j < matrix[i].Length; j++)
+            {
+                if(str1[i-1] == str2[j-1])
+                {
+                    matrix[i][j] = 1 + matrix[i-1][j-1];
+                }
+                else
+                {
+                    matrix[i][j] = Math.Max(matrix[i-1][j], matrix[i][j-1]);
+                }
+            }
+        }
+        
+        return matrix;
+    }
+}

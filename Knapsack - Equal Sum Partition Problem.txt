@@ -1,0 +1,57 @@
+public class Solution {
+    public bool CanPartition(int[] nums) 
+    {
+        int subsetSum = 0;
+        for(int i = 0; i < nums.Length ; i++)
+        {
+            subsetSum += nums[i];
+        }
+        if((subsetSum & 1) != 0)
+        {
+            return false; 
+        }
+        subsetSum = subsetSum/2;
+        var ans = SubsetSum(nums, subsetSum, nums.Length);    
+        return ans;
+    }
+    
+    public bool SubsetSum(int[] nums, int sum, int n)
+    {
+        var arr = new bool[nums.Length + 1][];
+        for(int i = 0; i < arr.Length; i++)
+        {
+            arr[i] = new bool[sum+1];
+        }
+        for(int i = 0; i < n+1 ; i++)
+        {
+            for(int j = 0; j < sum + 1 ; j++)
+            {
+                if(i == 0)
+                {
+                    arr[i][j] = false;
+                }
+                if(j == 0)
+                {
+                    arr[i][j] = true;
+                }
+            }
+        }
+        
+        for(int i = 1; i < n + 1 ; i++)
+        {
+            for(int j = 1; j < sum + 1 ; j++)
+            {
+                if(nums[i-1] <= j)
+                {
+                    arr[i][j] = arr[i-1][j - nums[i-1]] || arr[i-1][j];
+                }
+                else
+                {
+                    arr[i][j] = arr[i-1][j];
+                }
+            }
+        }
+        
+        return arr[n][sum];
+    }
+}

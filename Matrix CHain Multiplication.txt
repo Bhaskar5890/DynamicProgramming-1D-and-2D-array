@@ -1,0 +1,19 @@
+public static int MCM(int[] arr, int i, int j)
+    {
+      if (i >= j)
+      {
+        return 0;
+      }
+      if (dp[i][j] != -1)
+      {
+        return dp[i][j];
+      }
+
+      for (int k = i; k <= j-1; k++)
+      {
+        var temp = MCM(arr, i, k) + MCM(arr, k + 1, j) + (arr[i - 1] * arr[k] * arr[j]);
+        ans = Math.Min(ans, temp);
+      }
+
+      return dp[i][j] = ans;
+    }

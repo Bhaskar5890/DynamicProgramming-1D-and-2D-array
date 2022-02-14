@@ -1,0 +1,51 @@
+public class Solution {
+    public int LengthOfLIS(int[] nums) 
+    {
+      if (nums.Length == 0)
+      {
+        return 0;
+      }
+      if (nums.Length == 1)
+      {
+        return 1;
+      }
+      var target = new List<int>();
+      target.Add(nums[0]);
+      for (int i = 1; i < nums.Length; i++)
+      {
+        if (target[target.Count-1] < nums[i])
+        {
+          target.Add(nums[i]);
+        }
+        else
+        {
+          var srchIndex = BinarySearch(target.ToArray(), 0, target.Count-1, nums[i]);
+          target[srchIndex] = nums[i];
+        }
+      }
+
+      return target.Count;
+    }
+    
+    public int BinarySearch(int[] arr, int start, int end, int item)
+    {
+        while(start <= end)
+        {
+            var mid = (start+ end) / 2;
+            if(arr[mid] == item)
+            {
+                return mid;
+            }
+            if(arr[mid] > item)
+            {
+                end = mid-1;
+            }
+            else
+            {
+                start = mid+1;
+            }
+        }
+        
+        return start;
+    }
+}
